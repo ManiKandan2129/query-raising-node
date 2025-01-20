@@ -1,5 +1,10 @@
-import { Users } from "../../models/users.js";
+import { Users } from "../models/users.js";
 import bcrypt from 'bcrypt';
+import  Jwt  from "jsonwebtoken";
+import dotenv from 'dotenv';
+
+dotenv.config();
+
 
 
 export async function  getUserByEmail(data) {
@@ -7,6 +12,19 @@ export async function  getUserByEmail(data) {
         emailid: data.emailid
     })
 }
+
+export async function getUserById(id) {
+    return await Users.findById(id);
+}
+
+
+export async function generateToken(data){
+    return Jwt.sign({
+        id: data._id,
+        email: data.emailid
+    }, process.env.JWT_SECRET_KEY)
+}
+
 
 export async function signupUser(req, res) {
     try {
@@ -41,7 +59,6 @@ export async function signupUser(req, res) {
 
 export async function login(req, res) {
     try {
-        
         let user = await getUserByEmail(req.body);
 
         if(!user){
@@ -54,8 +71,11 @@ export async function login(req, res) {
             return res.status(404).json({err: "Incorrect Password"})
         }
 
+        const token = await generateToken(user)
+
         res.status(200).json({
             message: "User loggedin successfully",
+            token: token,
             data: user,
         });
 
