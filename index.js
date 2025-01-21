@@ -3,6 +3,7 @@ import express from 'express';
 import dataBaseConnection from './db.js';
 import cors from 'cors'
 import { authRoutes } from './routes/authRoutes.js';
+import { ticketRoutes } from './routes/ticketRoutes.js';
 
 const app = express();
 
@@ -16,6 +17,7 @@ dataBaseConnection()
 const PORT = process.env.PORT;
 
 app.use('/auth', authRoutes)
+app.use('/ticket', ticketRoutes)
 
 
 app.listen(PORT, () => {

@@ -22,8 +22,9 @@ const userSchema = new mongoose.Schema({
         type: String,
         enum: ["admin", "student", "mentor"],
         default: "student"
-    }
-});
+    },
+    
+}, { timestamps: true });
 
 const Users = mongoose.model("Ticketing_Users", userSchema);
 
