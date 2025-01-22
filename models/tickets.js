@@ -6,6 +6,10 @@ const ticketSchema = new mongoose.Schema({
         ref: "Ticketing_Users",
         required: true
     },
+    title: {
+        type: String,
+        required: true
+    },
     category: {
         type: String,
         required: true
