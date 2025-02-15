@@ -17,3 +17,20 @@ export async function createTicket(req, res){
         res.status(500).json({ error: "Internal server error" })
     }
 }
+
+export async function getQueryById(req, res) {
+    try {
+        
+        const userId = req.params.id;
+
+        const tickets = await Tickets.find({raised_by: userId});
+
+        res.status(201).json({
+            data: tickets,
+        });
+
+    } catch (error) {
+        console.error("Error occurred:", error);
+        res.status(500).json({ error: "Internal server error" })
+    }  
+}

@@ -6,7 +6,7 @@ const ticketSchema = new mongoose.Schema({
         ref: "Ticketing_Users",
         required: true
     },
-    title: {
+    Query_title: {
         type: String,
         required: true
     },
@@ -22,17 +22,12 @@ const ticketSchema = new mongoose.Schema({
         type: String,
         required: true
     },
-    Query_title: {
-        type: String,
-        required: true
-    },
     Query_description: {
         type: String,
         required: true
     },
     status: {
         type: String,
-        required: true,
         enum: ["unassigned", "assigned", "resolved"],
         default: "unassigned"
     },
