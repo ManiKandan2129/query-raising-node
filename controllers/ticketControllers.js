@@ -23,7 +23,8 @@ export async function getQueryById(req, res) {
         
         const userId = req.params.id;
 
-        const tickets = await Tickets.find({raised_by: userId});
+        const tickets = await Tickets.find({raised_by: userId})
+        .sort({createdAt: -1});
 
         res.status(201).json({
             data: tickets,
@@ -33,4 +34,21 @@ export async function getQueryById(req, res) {
         console.error("Error occurred:", error);
         res.status(500).json({ error: "Internal server error" })
     }  
+}
+
+export async function getQueryByQueryId(req, res) {
+    try {
+        
+        const queryId = req.params.id;
+        const query = await Tickets.findById(queryId);
+
+        res.status(200).json({
+            data: query
+        })
+
+    } catch (error) {
+        console.error("Error occurred:", error);
+        res.status(500).json({ error: "Internal server error" })
+    }
+    
 }

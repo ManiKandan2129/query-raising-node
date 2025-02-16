@@ -28,7 +28,7 @@ const ticketSchema = new mongoose.Schema({
     },
     status: {
         type: String,
-        enum: ["unassigned", "assigned", "resolved"],
+        enum: ["unassigned", "assigned", "closed"],
         default: "unassigned"
     },
     assigned_to:{
