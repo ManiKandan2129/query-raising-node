@@ -52,3 +52,17 @@ export async function getQueryByQueryId(req, res) {
     }
     
 }
+
+export async function getAllQueries(req, res) {
+    try {
+        
+        const tickets = await Tickets.find()
+        .sort({createdAt: -1});
+
+        res.status(200).json({data: tickets})
+
+    } catch (error) {
+        console.error("Error occurred:", error);
+        res.status(500).json({ error: "Internal server error" })
+    }
+}
