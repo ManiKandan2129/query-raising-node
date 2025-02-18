@@ -5,20 +5,38 @@ const batchSchema = new mongoose.Schema({
         type: String,
         required: true
     },
-    batch_duration:{
+    course_id: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "zen_course"
+    },
+    batch_duration: {
         type: String,
         required: true
     },
-    batch_timing:{
-        type: String,
+    batch_timing: {
+        start_time: {
+            type: String,
+            required: true,
+        },
+        end_time: {
+            type: String,
+            required: true,
+        },
+    },
+    instructor_ids: [{
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "Ticketing_Users" 
+    }],
+    start_date: {
+        type: Date,
         required: true
     },
-    language_medium:{
-        type: String,
+    end_date: {
+        type: Date,
         required: true
     },
-    batch_duration:{
-        type: String,
-        required: true
-    }
-})
+});
+
+const Batches =  mongoose.model("zen_Batch", batchSchema);
+
+export{ Batches }
