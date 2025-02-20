@@ -27,6 +27,10 @@ const userSchema = new mongoose.Schema({
         enum: ["admin", "student", "mentor"],
         default: "student"
     },
+    student_batch_id: {
+        type:  mongoose.Schema.Types.ObjectId,
+        ref: "zen_Batch"
+    },
     
 }, { timestamps: true });
 

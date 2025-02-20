@@ -27,6 +27,10 @@ const batchSchema = new mongoose.Schema({
     type: mongoose.Schema.Types.ObjectId,
     ref: "Ticketing_Users" 
     }],
+    student_ids: [{
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "Ticketing_Users" 
+    }],
     start_date: {
         type: Date,
         required: true

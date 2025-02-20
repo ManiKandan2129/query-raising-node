@@ -2,6 +2,7 @@ import { Users } from "../models/users.js";
 import bcrypt from 'bcrypt';
 import  Jwt  from "jsonwebtoken";
 import dotenv from 'dotenv';
+import { Batches } from "../models/batch.js";
 
 dotenv.config();
 
@@ -10,7 +11,12 @@ dotenv.config();
 export async function  getUserByEmail(data) {
     return await Users.findOne({
         emailid: data.emailid
-    })
+    }).populate({
+        path: 'student_batch_id',
+        populate: {
+            path: 'course_id' 
+        }
+    });
 }
 
 export async function getUserById(id) {
@@ -46,6 +52,16 @@ export async function signupUser(req, res) {
         user = await new Users({
             ...body, password: hashedPassword
         }).save();
+        
+        if(user.student_batch_id && user.role == 'student'){
+            const batchUpdateQuery =  { $addToSet: { student_ids: user._id } };
+
+            await Batches.findByIdAndUpdate(
+                user.student_batch_id,
+                batchUpdateQuery,
+                { new: true }
+            )
+        }
 
         res.status(201).json({
             message: "User registered successfully",
