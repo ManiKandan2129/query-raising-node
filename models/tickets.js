@@ -6,6 +6,16 @@ const ticketSchema = new mongoose.Schema({
         ref: "Ticketing_Users",
         required: true
     },
+    batch_id: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "zen_Batch",
+        required: true
+    },
+    course_id: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "zen_course",
+        required: true
+    },
     Query_title: {
         type: String,
         required: true
