@@ -40,7 +40,10 @@ export async function getQueryByQueryId(req, res) {
     try {
         
         const queryId = req.params.id;
-        const query = await Tickets.findById(queryId);
+        const query = await Tickets.findById(queryId).populate("raised_by", "firstname lastname") // Populate user details
+        .populate("batch_id", "batch_name") // Populate batch details
+        .populate("course_id", "course_name") // Populate course details
+        .populate("assigned_to", "firstname lastname") // Populate assigned user's details;
 
         res.status(200).json({
             data: query
