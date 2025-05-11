@@ -24,6 +24,7 @@ export async function getQueryById(req, res) {
         const userId = req.params.id;
 
         const tickets = await Tickets.find({raised_by: userId})
+        .populate("assigned_to", "firstname lastname")
         .sort({createdAt: -1});
 
         res.status(201).json({
@@ -92,6 +93,29 @@ export async function assignQuery(req, res) {
         res.status(200).json({ message: "Query assigned successfully", query });
  
 
+    } catch (error) {
+        console.error("Error occurred:", error);
+        res.status(500).json({ error: "Internal server error" })
+    }
+}
+
+export async function CloseQuery(req, res) {
+    try {
+
+        const { queryId, querySolution } = req.body;
+        const query = await Tickets.findById(queryId);
+
+        if(!query){
+            return res.status(500).json({ error: "Query not found" })
+        }
+
+        query.status = "closed";
+        query.solution = querySolution;
+
+        await query.save()
+
+        res.status(200).json({ message: "Query closed successfully", query });
+        
     } catch (error) {
         console.error("Error occurred:", error);
         res.status(500).json({ error: "Internal server error" })
