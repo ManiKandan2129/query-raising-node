@@ -78,13 +78,13 @@ export async function login(req, res) {
         let user = await getUserByEmail(req.body);
 
         if(!user){
-            return res.status(404).json({err: "user not found"})
+            return res.status(200).json({message: "user not found"})
         }
 
         //Validating Password
         const validatePassword = await bcrypt.compare(req.body.password, user.password);
         if(!validatePassword){
-            return res.status(404).json({err: "Incorrect Password"})
+            return res.status(200).json({message: "Incorrect Password"})
         }
 
         const token = await generateToken(user)
