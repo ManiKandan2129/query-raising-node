@@ -121,3 +121,26 @@ export async function CloseQuery(req, res) {
         res.status(500).json({ error: "Internal server error" })
     }
 }
+
+export async function dropQuery(req, res) {
+    try {
+        
+        const{ queryId } = req.body;
+        const query = await Tickets.findById(queryId);
+
+        if(!query){
+            return res.status(500).json({ error: "Query not found" })
+        }
+        query.status = "unassigned";
+        query.assigned_to = null;
+
+        await query.save()
+
+        res.status(200).json({ message: "Query droped successfully", query });
+
+    } catch (error) {
+        console.error("Error occurred:", error);
+        res.status(500).json({ error: "Internal server error" })
+        
+    }
+}
